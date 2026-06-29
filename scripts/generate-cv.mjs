@@ -52,26 +52,26 @@ const data = {
 
   projects: [
     {
-      name: 'Femup - Freelance Marketplace, Training and Payments Platform',
-      meta: 'Personal full-stack project | Mar 2026 - Jun 2026',
+      name: 'ProLancer - Freelance Marketplace & Training Platform for Tunisia',
+      meta: 'Founder / Full-stack project | Mar 2026 - Jun 2026',
       bullets: [
-        'Built a multi-role platform for freelancers, companies, trainers and admins, with separate dashboards and protected routes.',
-        'Implemented missions, applications, contracts, contract signing, invoices, wallets, manual payments, withdrawals and admin finance views.',
-        'Created messaging with milestones, delivery approval/rejection, file attachments, timeline events and notifications.',
-        'Added a training module with course catalog, lessons, quizzes, enrollments, trainer profile and revenue tracking.',
+        'Full-stack marketplace connecting companies, freelancers and trainers, built for a market where Stripe and PayPal are unavailable.',
+        'Designed a bank-transfer escrow system (references, admin validation, wallet/ledger payouts) as the trust layer in place of a card gateway.',
+        'Money in integer millimes with one canonical TVA 19% / commission model across catalogue, checkout, wallets and invoices.',
+        'Training platform with quizzes, certificates and server-enforced paid-content access; automated PDF invoices, contracts and certificates.',
       ],
-      tech: 'React, TypeScript, Redux Toolkit / RTK Query, Rust backend, authentication, Konnect payment flow, file upload, PDF generation.',
+      tech: 'Rust (actix-web), MongoDB, Redis, React, TypeScript, Redux Toolkit Query, SSE, JWT, PDF generation.',
     },
     {
-      name: 'TicketApp - Event Ticketing and Gate Scanning Platform',
-      meta: 'Personal full-stack project | Nov 2025 - Feb 2026',
+      name: 'TicketApp - High-Concurrency Sports Ticketing & Gate Scanning Platform',
+      meta: 'Backend & full-stack project (client) | Nov 2025 - Feb 2026',
       bullets: [
-        'Built an event ticketing app for clubs with public users, club managers, gate operators and admins.',
-        'Implemented event creation, ticket purchase flow, season passes, branded ticket PDFs and QR-code validation at the gate.',
-        'Developed gate scanning features, scan history, gate analytics and operational views for staff.',
-        'Added club wallets, payout methods, withdrawal requests, admin commission views and notification flows.',
+        'Sports ticketing platform with a Redis-backed virtual waiting-room queue and atomic, per-seat ticket purchasing with unique QR tickets.',
+        'Double-entry wallet ledger with idempotent credits reconciling to the cent; gate scanning, dashboards, analytics and payouts.',
+        'Load-tested with k6 to 50,000 concurrent fans: sub-100 ms (p95) queue reads, zero overselling or double-charging.',
+        'Fixed two launch-blocking concurrency bugs and tuned auth/indexes to run on a single 4 vCPU / 8 GB server.',
       ],
-      tech: 'React, TypeScript, Rust backend, Redis caching, QR generation/validation, PDF tickets, OAuth/JWT-style authentication.',
+      tech: 'Rust (Actix-web), MongoDB (transactions), Redis, React, TypeScript, k6, JWT, PDF generation.',
     },
     {
       name: 'Linkora - Recruitment CRM and Candidate Pipeline',
@@ -107,7 +107,7 @@ const data = {
 const INK = '#1a1a1a';
 const MUTED = '#444444';
 const RULE = '#999999';
-const MARGIN = 40;
+const MARGIN = 34;
 
 mkdirSync(dirname(OUT), { recursive: true });
 
@@ -125,30 +125,30 @@ doc.pipe(createWriteStream(OUT));
 const pageWidth = doc.page.width - MARGIN * 2;
 
 function heading(text) {
-  doc.moveDown(0.35);
-  doc.font('Helvetica-Bold').fontSize(10).fillColor(INK).text(text.toUpperCase(), { characterSpacing: 0.5 });
-  const y = doc.y + 1.2;
+  doc.moveDown(0.22);
+  doc.font('Helvetica-Bold').fontSize(9.5).fillColor(INK).text(text.toUpperCase(), { characterSpacing: 0.5 });
+  const y = doc.y + 1;
   doc.moveTo(MARGIN, y).lineTo(doc.page.width - MARGIN, y).lineWidth(0.6).strokeColor(RULE).stroke();
-  doc.moveDown(0.3);
+  doc.moveDown(0.2);
 }
 
-function para(text, { size = 9, color = INK, gap = 0.2 } = {}) {
-  doc.font('Helvetica').fontSize(size).fillColor(color).text(text, { align: 'left', lineGap: 0.5 });
+function para(text, { size = 8.5, color = INK, gap = 0.12 } = {}) {
+  doc.font('Helvetica').fontSize(size).fillColor(color).text(text, { align: 'left', lineGap: 0 });
   doc.moveDown(gap);
 }
 
 function bullets(items) {
-  doc.font('Helvetica').fontSize(9).fillColor(INK);
+  doc.font('Helvetica').fontSize(8.5).fillColor(INK);
   doc.list(items, {
-    bulletRadius: 1.2,
+    bulletRadius: 1.1,
     textIndent: 9,
     bulletIndent: 2,
-    lineGap: 0.5,
-    paragraphGap: 1,
+    lineGap: 0,
+    paragraphGap: 0.5,
   });
 }
 
-function labeled(label, rest, { size = 9 } = {}) {
+function labeled(label, rest, { size = 8.5 } = {}) {
   doc.fontSize(size).fillColor(INK);
   doc.font('Helvetica-Bold').text(`${label}: `, { continued: true });
   doc.font('Helvetica').text(rest, { lineGap: 1 });
