@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// Generates a clean, one-page, ATS-friendly PDF resume at public/cv.pdf.
+// Generates a clean, readable, ATS-friendly PDF resume (1-2 pages) at public/cv.pdf.
 //
 // Run with:  npm run cv:generate
 //
@@ -60,7 +60,7 @@ const data = {
         'Money in integer millimes with one canonical TVA 19% / commission model across catalogue, checkout, wallets and invoices.',
         'Training platform with quizzes, certificates and server-enforced paid-content access; automated PDF invoices, contracts and certificates.',
       ],
-      tech: 'Rust (actix-web), MongoDB, Redis, React, TypeScript, Redux Toolkit Query, SSE, JWT, PDF generation.',
+      tech: 'Rust (actix-web), MongoDB, Redis, React, TypeScript, RTK Query, SSE, JWT.',
     },
     {
       name: 'TicketApp - High-Concurrency Sports Ticketing & Gate Scanning Platform',
@@ -104,10 +104,17 @@ const data = {
 };
 
 // --- Layout ------------------------------------------------------------------
+// Readability first: generous spacing, ~10.5pt body, ~13.5pt headings,
+// ~17mm margins, white background, dark text. Flows to a 2nd page if needed.
 const INK = '#1a1a1a';
-const MUTED = '#444444';
-const RULE = '#999999';
-const MARGIN = 34;
+const MUTED = '#555555';
+const RULE = '#cfcfcf';
+const MARGIN = 50; // ~17.6mm
+
+const BODY = 10.5;
+const HEADING = 13.5;
+const ROLE = 11;
+const META = 9.5;
 
 mkdirSync(dirname(OUT), { recursive: true });
 
@@ -123,84 +130,100 @@ const doc = new PDFDocument({
 doc.pipe(createWriteStream(OUT));
 
 const pageWidth = doc.page.width - MARGIN * 2;
+const pageBottom = doc.page.height - MARGIN;
 
-function heading(text) {
-  doc.moveDown(0.22);
-  doc.font('Helvetica-Bold').fontSize(9.5).fillColor(INK).text(text.toUpperCase(), { characterSpacing: 0.5 });
-  const y = doc.y + 1;
-  doc.moveTo(MARGIN, y).lineTo(doc.page.width - MARGIN, y).lineWidth(0.6).strokeColor(RULE).stroke();
-  doc.moveDown(0.2);
+/** Add a fixed vertical gap in points. */
+const gap = (pts) => {
+  doc.y += pts;
+};
+
+/** Start a new page if less than `min` points remain (keeps blocks together). */
+function ensureSpace(min) {
+  if (doc.y + min > pageBottom) doc.addPage();
 }
 
-function para(text, { size = 8.5, color = INK, gap = 0.12 } = {}) {
-  doc.font('Helvetica').fontSize(size).fillColor(color).text(text, { align: 'left', lineGap: 0 });
-  doc.moveDown(gap);
+function heading(text) {
+  ensureSpace(58);
+  gap(8);
+  doc.font('Helvetica-Bold').fontSize(HEADING).fillColor(INK).text(text);
+  const y = doc.y + 3;
+  doc.moveTo(MARGIN, y).lineTo(doc.page.width - MARGIN, y).lineWidth(0.75).strokeColor(RULE).stroke();
+  gap(6);
+}
+
+function para(text) {
+  doc.font('Helvetica').fontSize(BODY).fillColor(INK).text(text, { align: 'left', lineGap: 1.5 });
+  gap(2);
 }
 
 function bullets(items) {
-  doc.font('Helvetica').fontSize(8.5).fillColor(INK);
+  doc.font('Helvetica').fontSize(BODY).fillColor(INK);
   doc.list(items, {
-    bulletRadius: 1.1,
-    textIndent: 9,
+    bulletRadius: 1.4,
+    textIndent: 12,
     bulletIndent: 2,
-    lineGap: 0,
-    paragraphGap: 0.5,
+    lineGap: 1.5,
+    paragraphGap: 3.5,
   });
 }
 
-function labeled(label, rest, { size = 8.5 } = {}) {
-  doc.fontSize(size).fillColor(INK);
-  doc.font('Helvetica-Bold').text(`${label}: `, { continued: true });
-  doc.font('Helvetica').text(rest, { lineGap: 1 });
+function labeled(label, rest) {
+  doc.fontSize(BODY).fillColor(INK);
+  doc.font('Helvetica-Bold').text(`${label}:  `, { continued: true });
+  doc.font('Helvetica').text(rest, { lineGap: 2.5 });
 }
 
 // --- Header ------------------------------------------------------------------
-doc.font('Helvetica-Bold').fontSize(18).fillColor(INK).text(data.name);
-doc.font('Helvetica').fontSize(10.5).fillColor(MUTED).text(data.title);
-doc.moveDown(0.2);
-doc.font('Helvetica').fontSize(8.5).fillColor(MUTED).text(data.contact, { width: pageWidth, lineGap: 0.5 });
+doc.font('Helvetica-Bold').fontSize(21).fillColor(INK).text(data.name);
+gap(2);
+doc.font('Helvetica').fontSize(12).fillColor(MUTED).text(data.title);
+gap(5);
+doc.font('Helvetica').fontSize(META).fillColor(MUTED).text(data.contact, { width: pageWidth, lineGap: 2 });
 
 // --- Profile -----------------------------------------------------------------
 heading('Profile');
-data.profile.forEach((p) => para(p, { gap: 0.3 }));
+data.profile.forEach((p) => para(p));
 
 // --- Technical Stack ---------------------------------------------------------
 heading('Technical Stack');
 data.stack.forEach(([label, rest]) => {
   labeled(label, rest);
-  doc.moveDown(0.18);
+  gap(4);
 });
 
 // --- Experience --------------------------------------------------------------
 heading('Experience');
 data.experience.forEach((job) => {
-  doc.font('Helvetica-Bold').fontSize(9.5).fillColor(INK).text(`${job.role} | ${job.org}`);
-  doc.font('Helvetica-Oblique').fontSize(8.5).fillColor(MUTED).text(job.period);
-  doc.moveDown(0.18);
+  doc.font('Helvetica-Bold').fontSize(ROLE).fillColor(INK).text(`${job.role}  |  ${job.org}`);
+  gap(2);
+  doc.font('Helvetica-Oblique').fontSize(META).fillColor(MUTED).text(job.period);
+  gap(6);
   bullets(job.bullets);
 });
 
 // --- Selected Projects -------------------------------------------------------
 heading('Selected Projects');
 data.projects.forEach((p, i) => {
-  if (i > 0) doc.moveDown(0.35);
-  doc.font('Helvetica-Bold').fontSize(9.5).fillColor(INK).text(p.name);
-  doc.font('Helvetica-Oblique').fontSize(8.5).fillColor(MUTED).text(p.meta);
-  doc.moveDown(0.18);
+  // Keep each project block from splitting across the page boundary.
+  ensureSpace(105);
+  if (i > 0) gap(9);
+  doc.font('Helvetica-Bold').fontSize(ROLE).fillColor(INK).text(p.name);
+  gap(2);
+  doc.font('Helvetica-Oblique').fontSize(META).fillColor(MUTED).text(p.meta);
+  gap(6);
   bullets(p.bullets);
-  doc.moveDown(0.15);
-  labeled('Tech', p.tech, { size: 8.5 });
+  gap(6);
+  labeled('Tech', p.tech);
 });
 
 // --- Education & Languages ---------------------------------------------------
 heading('Education & Languages');
 labeled('Education', data.education);
-doc.moveDown(0.18);
+gap(8);
 labeled('Languages', data.languages);
-doc.moveDown(0.18);
+gap(8);
 labeled('Remote work', data.remote);
 
 doc.end();
 
-doc.on('end', () => {});
 console.log(`CV written to ${OUT}`);
