@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-text font-sans antialiased;
+    background-image: radial-gradient(800px circle at 50% -10%, rgba(57, 208, 216, 0.07), transparent 55%);
+    background-attachment: fixed;
+  }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  ::selection {
+    background: rgba(57, 208, 216, 0.3);
+    color: #fff;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0e14;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1f2733;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2a3340;
+  }
+
+  /* Focus visibility for accessibility */
+  :focus-visible {
+    outline: 2px solid #39d0d8;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+  }
+
+  .section {
+    @apply scroll-mt-20 py-20 sm:py-28;
+  }
+
+  .card {
+    @apply rounded-xl border border-border bg-bg-card shadow-card;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-md border border-border-soft bg-bg-elevated px-2.5 py-1 font-mono text-xs text-muted transition-colors;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus-visible:outline-2;
+  }
+  .btn-primary {
+    @apply btn bg-accent/15 text-accent ring-1 ring-inset ring-accent/40 hover:bg-accent/25 hover:shadow-glow;
+  }
+  .btn-ghost {
+    @apply btn border border-border bg-transparent text-text hover:border-accent/40 hover:text-accent;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 24px rgba(57, 208, 216, 0.35);
+  }
+}
