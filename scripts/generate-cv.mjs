@@ -21,8 +21,13 @@ const OUT = resolve(__dirname, '..', 'public', 'cv.pdf');
 const data = {
   name: 'Mohamed Faizallah',
   title: 'Full-Stack Developer - React, TypeScript, Rust',
-  contact:
-    'Tunis, Tunisie | 100% remote | +216 23 09 10 15 | mohamed.faizallah@gmail.com | LinkedIn: linkedin.com/in/mohamed-faizallah',
+  // Contact line 1 is plain text; line 2 holds clickable links.
+  contactLine1: 'Tunis, Tunisie   |   100% remote   |   +216 23 09 10 15',
+  email: 'mohamed.faizallah@gmail.com',
+  linkedinLabel: 'linkedin.com/in/mohamed-faizallah',
+  linkedinUrl: 'https://www.linkedin.com/in/mohamed-faizallah/',
+  portfolioLabel: 'mohamedfaizallah.github.io',
+  portfolioUrl: 'https://mohamedfaizallah.github.io/',
 
   profile: [
     'Full-stack developer focused on practical business web apps: APIs, dashboards, authentication, admin panels, payments, file handling and automation. I like building the whole flow, not just isolated screens: data model, backend routes, frontend state, UI details and the small tools that make a product usable.',
@@ -178,7 +183,28 @@ doc.font('Helvetica-Bold').fontSize(21).fillColor(INK).text(data.name);
 gap(2);
 doc.font('Helvetica').fontSize(12).fillColor(MUTED).text(data.title);
 gap(5);
-doc.font('Helvetica').fontSize(META).fillColor(MUTED).text(data.contact, { width: pageWidth, lineGap: 2 });
+
+// Contact: line 1 plain, line 2 clickable links (email, LinkedIn, portfolio).
+const LINK = '#1d4ed8';
+const SEP = '   |   ';
+doc.font('Helvetica').fontSize(META);
+doc.fillColor(MUTED).text(data.contactLine1, { lineGap: 3 });
+doc.fillColor(LINK).text(data.email, {
+  continued: true,
+  link: `mailto:${data.email}`,
+  underline: true,
+});
+doc.fillColor(MUTED).text(SEP, { continued: true, underline: false, link: null });
+doc.fillColor(LINK).text(data.linkedinLabel, {
+  continued: true,
+  link: data.linkedinUrl,
+  underline: true,
+});
+doc.fillColor(MUTED).text(SEP, { continued: true, underline: false, link: null });
+doc.fillColor(LINK).text(data.portfolioLabel, {
+  link: data.portfolioUrl,
+  underline: true,
+});
 
 // --- Profile -----------------------------------------------------------------
 heading('Profile');
