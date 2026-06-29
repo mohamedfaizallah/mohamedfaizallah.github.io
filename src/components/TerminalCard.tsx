@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
-// ---- Boot sequence shown before the developer object ----
 interface BootLine {
   prompt?: boolean;
   text: string;
@@ -15,7 +14,6 @@ const bootLines: BootLine[] = [
   { text: '✓ mode: remote-ready', className: 'text-terminal-yellow' },
 ];
 
-// ---- The developer object, tokenized for syntax colours ----
 type Token = { text: string; className?: string };
 
 const codeLines: Token[][] = [
@@ -63,13 +61,12 @@ const lineLen = (line: Token[]) => line.reduce((n, t) => n + t.text.length, 0);
 
 export default function TerminalCard() {
   const reduce = useReducedMotion();
-  const [bootStep, setBootStep] = useState(0); // how many boot lines shown
+  const [bootStep, setBootStep] = useState(0);
   const [typing, setTyping] = useState(false);
   const [revealed, setRevealed] = useState(0);
   const totalChars = codeLines.reduce((n, l) => n + lineLen(l), 0);
   const startedRef = useRef(false);
 
-  // Phase 1: reveal boot lines, then start typing.
   useEffect(() => {
     if (startedRef.current) return;
     startedRef.current = true;
@@ -89,7 +86,6 @@ export default function TerminalCard() {
     return () => timers.forEach(clearTimeout);
   }, [reduce, totalChars]);
 
-  // Phase 2: simulated typing of the object.
   useEffect(() => {
     if (!typing || reduce) return;
     let raf = 0;
@@ -115,10 +111,8 @@ export default function TerminalCard() {
       className="card relative overflow-hidden shadow-glow"
       aria-hidden="true"
     >
-      {/* subtle top sheen */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
-      {/* Title bar */}
       <div className="flex items-center gap-2 border-b border-border bg-bg-elevated px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-terminal-red/80" />
         <span className="h-3 w-3 rounded-full bg-terminal-yellow/80" />
@@ -126,9 +120,7 @@ export default function TerminalCard() {
         <span className="ml-3 font-mono text-xs text-muted">~/developer — zsh</span>
       </div>
 
-      {/* Body */}
       <div className="space-y-3 p-5 font-mono text-[13px] leading-relaxed sm:text-sm">
-        {/* Boot sequence */}
         <div className="space-y-1">
           <AnimatePresence initial={false}>
             {bootLines.slice(0, bootStep).map((line, i) => (
@@ -146,7 +138,6 @@ export default function TerminalCard() {
           </AnimatePresence>
         </div>
 
-        {/* Developer object */}
         {typing && (
           <motion.pre
             initial={{ opacity: 0 }}
@@ -182,7 +173,6 @@ export default function TerminalCard() {
           </motion.pre>
         )}
 
-        {/* blinking cursor on the active line */}
         {(!typingDone || !typing) && (
           <span className="inline-block h-4 w-2 animate-blink bg-accent align-middle" />
         )}

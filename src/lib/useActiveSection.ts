@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react';
 
-/**
- * Returns the id of the section currently considered "active" based on
- * scroll position, using IntersectionObserver. Used to highlight nav links.
- */
 export function useActiveSection(ids: string[]): string {
   const [active, setActive] = useState(ids[0] ?? '');
 
-  // Depend on a stable string key, not the array identity. Callers usually
-  // pass a fresh array each render (e.g. links.map(...)); without this the
-  // observer would be rebuilt on every render, churning the main thread.
   const key = ids.join('|');
 
   useEffect(() => {
@@ -23,7 +16,6 @@ export function useActiveSection(ids: string[]): string {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Pick the entry nearest the top that is sufficiently visible.
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);

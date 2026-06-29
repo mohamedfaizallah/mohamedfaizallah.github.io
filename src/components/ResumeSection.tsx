@@ -33,7 +33,6 @@ export default function ResumeSection() {
           transition={{ duration: 0.5 }}
           className="card mx-auto max-w-3xl p-6 sm:p-10"
         >
-          {/* Header */}
           <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
             <div>
               <h3 className="text-2xl font-bold text-white">{site.resumeTitle}</h3>

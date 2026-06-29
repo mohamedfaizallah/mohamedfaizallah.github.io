@@ -16,7 +16,7 @@ export default function Contact() {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
-      /* clipboard unavailable — ignore */
+      setCopied(false);
     }
   };
 
@@ -32,7 +32,6 @@ export default function Contact() {
         >
           <div className="pointer-events-none absolute inset-0 -z-10 bg-radial-glow" aria-hidden="true" />
 
-          {/* terminal header */}
           <div className="flex items-center gap-2 border-b border-border bg-bg-elevated px-4 py-3">
             <span className="h-3 w-3 rounded-full bg-terminal-red/80" />
             <span className="h-3 w-3 rounded-full bg-terminal-yellow/80" />
@@ -41,7 +40,6 @@ export default function Contact() {
           </div>
 
           <div className="p-6 sm:p-8">
-            {/* terminal output */}
             <div className="mb-6 font-mono text-sm leading-relaxed">
               <p className="text-text">
                 <span className="text-terminal-comment">$</span> contact{' '}

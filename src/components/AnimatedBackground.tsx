@@ -1,18 +1,9 @@
 import { useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
-/**
- * Subtle global backdrop:
- *  - dark gradient + faint grid
- *  - slow-drifting glow blobs
- *  - very light "code rain" columns
- * All motion is disabled when the user prefers reduced motion.
- * Rendered fixed and behind everything; pointer-events: none.
- */
 export default function AnimatedBackground() {
   const reduce = useReducedMotion();
 
-  // Pre-compute a few code-rain columns with stable random values.
   const columns = useMemo(
     () =>
       Array.from({ length: 14 }).map((_, i) => ({
@@ -36,14 +27,11 @@ export default function AnimatedBackground() {
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      {/* base gradient */}
       <div className="absolute inset-0 bg-bg" />
       <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_50%_-10%,rgba(57,208,216,0.08),transparent_60%)]" />
 
-      {/* faint grid */}
       <div className="absolute inset-0 bg-grid-faint [background-size:46px_46px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_85%)]" />
 
-      {/* drifting glow blobs */}
       {blobs.map((b, i) => (
         <motion.div
           key={i}
@@ -64,7 +52,6 @@ export default function AnimatedBackground() {
         />
       ))}
 
-      {/* very subtle code rain */}
       {!reduce && (
         <div className="absolute inset-0 opacity-[0.06]">
           {columns.map((col) => (
@@ -89,7 +76,6 @@ export default function AnimatedBackground() {
         </div>
       )}
 
-      {/* vignette to keep content readable */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(5,8,12,0.7))]" />
     </div>
   );

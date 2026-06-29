@@ -1,48 +1,32 @@
 export interface ProjectImage {
-  /** Path relative to public/. */
   src: string;
-  /** Descriptive alt text / caption shown in the gallery. */
   alt: string;
 }
 
 export interface CaseStudy {
-  /** Background and the problem this project addresses. */
   context: string;
-  /** A concise statement of what was actually built. */
   whatIBuilt: string;
-  /** Notable architectural / technical choices and why. */
   technicalDecisions: string[];
-  /** Outcome and value delivered. Use "Add metric here" placeholders, no fake numbers. */
   result: string;
 }
 
 export interface Project {
   id: string;
   title: string;
-  /** One-line description. */
   tagline: string;
   role: string;
   date: string;
-  /** Short category labels, e.g. Full-stack, Rust API, Dashboard. */
   labels: string[];
-  /** Tech stack badges. */
   stack: string[];
-  /** The problem the project solves. */
   problem: string;
-  /** Main product features. */
   features: string[];
-  /** Lower-level technical highlights. */
   technicalHighlights: string[];
-  /** Captioned screenshots shown in the card preview and gallery. */
   screenshots: ProjectImage[];
-  /** Optional local demo video path (relative to public/). */
   video?: string;
-  /** External links — leave as '#' placeholders if not available yet. */
   links: {
     demo?: string;
     repo?: string;
   };
-  /** Highlight accent for the card. */
   accent: 'cyan' | 'violet';
   caseStudy: CaseStudy;
 }

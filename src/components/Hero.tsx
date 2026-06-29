@@ -31,7 +31,6 @@ export default function Hero() {
   return (
     <section id="hero" className="relative overflow-hidden pt-28 sm:pt-32">
       <div className="container-page grid grid-cols-1 gap-12 pb-20 lg:grid-cols-2 lg:items-center lg:gap-10">
-        {/* Left: copy */}
         <motion.div variants={staggerContainer} initial="hidden" animate="show">
           <motion.div variants={item} className="mb-5 flex flex-wrap items-center gap-3">
             <span className="badge gap-2 text-terminal-green">
@@ -45,7 +44,6 @@ export default function Hero() {
 
           <motion.div variants={item} className="group mb-6 flex items-center gap-5">
             <div className="relative flex-shrink-0">
-              {/* soft, subtle glow — no harsh colored ring */}
               <div
                 aria-hidden="true"
                 className="absolute -inset-1 rounded-full bg-accent/15 blur-lg"
@@ -61,12 +59,10 @@ export default function Hero() {
                     onError={() => setImgError(true)}
                     className="h-full w-full object-cover object-top grayscale-[30%] contrast-[1.03] brightness-[0.92] transition-all duration-500 group-hover:grayscale-0 group-hover:brightness-100"
                   />
-                  {/* radial vignette: fades the light background into the dark UI */}
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_38%,transparent_42%,rgba(10,14,20,0.92))]"
                   />
-                  {/* faint accent wash so skin tones sit in the theme */}
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-accent/10 mix-blend-soft-light"
@@ -113,7 +109,6 @@ export default function Hero() {
             authentication, automation, file handling, e-commerce workflows and internal tools.
           </motion.p>
 
-          {/* currently building line */}
           <motion.p
             variants={item}
             className="mt-5 inline-flex flex-wrap items-center gap-2 rounded-lg border border-border bg-bg-card/60 px-3 py-2 font-mono text-xs text-muted"
@@ -137,11 +132,9 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right: terminal + floating badges */}
         <div className="relative lg:pl-6">
           <TerminalCard />
 
-          {/* floating tech badges */}
           {floatingBadges.map((b) => (
             <motion.div
               key={b.label}

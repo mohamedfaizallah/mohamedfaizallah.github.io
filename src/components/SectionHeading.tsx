@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { reveal, fadeUp } from '../lib/motion';
 
 interface SectionHeadingProps {
-  /** Terminal-style prompt label, e.g. "about" -> renders ~/about */
   prompt: string;
   title: string;
   subtitle?: string;

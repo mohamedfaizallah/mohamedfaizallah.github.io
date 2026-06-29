@@ -33,17 +33,14 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
   const closeRef = useRef<HTMLButtonElement>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
 
-  // Reset to first tab whenever a new project opens.
   useEffect(() => {
     if (project) setTab('overview');
   }, [project]);
 
-  // Escape to close, basic focus trap, scroll lock, focus restore.
   useEffect(() => {
     if (!project) return;
     restoreFocusRef.current = document.activeElement as HTMLElement;
     document.body.style.overflow = 'hidden';
-    // focus close button on open
     const t = window.setTimeout(() => closeRef.current?.focus(), 30);
 
     const onKey = (e: KeyboardEvent) => {
@@ -97,7 +94,6 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
             onClick={(e) => e.stopPropagation()}
             className="card my-4 w-full max-w-3xl"
           >
-            {/* Header */}
             <div className="sticky top-0 z-10 rounded-t-xl border-b border-border bg-bg-card/95 backdrop-blur">
               <div className="flex items-start justify-between gap-4 p-6 pb-4">
                 <div>
@@ -131,7 +127,6 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                 </button>
               </div>
 
-              {/* Tabs */}
               <div role="tablist" aria-label="Case study sections" className="flex gap-1 overflow-x-auto px-4">
                 {tabs.map((t) => (
                   <button
@@ -158,7 +153,6 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
             </div>
 
             <div className="space-y-7 p-6">
-              {/* Media */}
               <ScreenshotCarousel images={project.screenshots} title={project.title} />
               {project.video && (
                 <MediaVideo
@@ -168,7 +162,6 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                 />
               )}
 
-              {/* Stack */}
               <ul className="flex flex-wrap gap-2">
                 {project.stack.map((s) => (
                   <li key={s} className="badge">
@@ -177,14 +170,6 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                 ))}
               </ul>
 
-              {/*
-                Tab panels. NOTE: intentionally NOT wrapped in a nested
-                AnimatePresence. A nested AnimatePresence (especially mode="wait")
-                deadlocks the parent modal's exit, leaving the fixed backdrop
-                mounted and blocking all clicks after close. The keyed motion.div
-                re-mounts on tab change, which replays `initial -> animate` for a
-                clean fade-in without any exit animation to resolve.
-              */}
               <div className="min-h-[8rem]">
                 <motion.div
                   key={tab}

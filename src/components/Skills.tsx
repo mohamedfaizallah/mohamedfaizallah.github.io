@@ -31,7 +31,6 @@ export default function Skills() {
             return (
               <motion.div key={group.id} variants={fadeUp}>
                 <motion.article whileHover={{ y: -6 }} className="group relative h-full">
-                  {/* animated gradient border on hover */}
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute -inset-px rounded-xl bg-gradient-to-br from-accent/50 via-accent-violet/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -59,7 +58,6 @@ export default function Skills() {
                       ))}
                     </motion.ul>
 
-                    {/* terminal-style line revealed on hover */}
                     <div className="mt-5 overflow-hidden">
                       <p className="max-h-0 font-mono text-xs text-terminal-comment opacity-0 transition-all duration-300 group-hover:max-h-10 group-hover:opacity-100">
                         <span className="text-terminal-green">$</span> loaded {group.skills.length}{' '}

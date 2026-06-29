@@ -17,7 +17,6 @@
     background-attachment: fixed;
   }
 
-  /* Respect users who prefer reduced motion */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -36,7 +35,6 @@
     color: #fff;
   }
 
-  /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -52,7 +50,6 @@
     background: #2a3340;
   }
 
-  /* Focus visibility for accessibility */
   :focus-visible {
     outline: 2px solid #39d0d8;
     outline-offset: 2px;

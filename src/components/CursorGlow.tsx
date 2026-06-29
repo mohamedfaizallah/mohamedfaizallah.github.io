@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 
-const SIZE = 600; // diameter of the glow
+const SIZE = 600;
 
-/**
- * Soft radial glow that follows the cursor on desktop pointers only.
- * Disabled on touch devices and when prefers-reduced-motion is set.
- */
 export default function CursorGlow() {
   const reduce = useReducedMotion();
   const [enabled, setEnabled] = useState(false);
 
-  // Track the top-left of the glow (cursor minus half its size).
   const x = useMotionValue(-SIZE);
   const y = useMotionValue(-SIZE);
   const sx = useSpring(x, { stiffness: 300, damping: 40, mass: 0.6 });

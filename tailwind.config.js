@@ -1,10 +1,8 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        // Terminal / code-editor inspired palette
         bg: {
           DEFAULT: '#0a0e14',
           soft: '#0f141c',
@@ -16,7 +14,7 @@ export default {
           soft: '#2a3340',
         },
         accent: {
-          DEFAULT: '#39d0d8', // cyan glow
+          DEFAULT: '#39d0d8',
           soft: '#5be8c4',
           violet: '#8b7cff',
         },

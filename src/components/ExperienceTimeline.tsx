@@ -19,7 +19,6 @@ export default function ExperienceTimeline() {
         <SectionHeading prompt="experience" title="Experience" />
 
         <div ref={lineRef} className="relative">
-          {/* track + animated growing line */}
           <div className="absolute left-4 top-2 h-full w-px bg-border sm:left-5" aria-hidden="true" />
           <motion.div
             className="absolute left-4 top-2 h-full w-px origin-top bg-gradient-to-b from-accent via-accent-violet to-accent shadow-[0_0_10px_rgba(57,208,216,0.6)] sm:left-5"
@@ -35,7 +34,6 @@ export default function ExperienceTimeline() {
                 variants={slideInLeft}
                 className="relative pl-14 sm:pl-16"
               >
-                {/* glowing node */}
                 <span className="absolute left-0 top-1 flex h-9 w-9 items-center justify-center rounded-full border border-accent/40 bg-bg-elevated text-accent shadow-glow sm:h-10 sm:w-10">
                   <Briefcase className="h-4 w-4" aria-hidden="true" />
                   {job.current && (

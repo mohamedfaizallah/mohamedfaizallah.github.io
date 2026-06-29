@@ -4,7 +4,6 @@ import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-moti
 interface CommonProps {
   className?: string;
   children: ReactNode;
-  /** How strongly the element is pulled toward the cursor (px). */
   strength?: number;
   'aria-label'?: string;
 }
@@ -25,10 +24,6 @@ interface ButtonProps extends CommonProps {
 
 type MagneticButtonProps = AnchorProps | ButtonProps;
 
-/**
- * A button/link with a subtle magnetic pull toward the cursor and a shine
- * sweep on hover. Falls back to a static element when reduced motion is on.
- */
 export default function MagneticButton(props: MagneticButtonProps) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLElement | null>(null);

@@ -1,14 +1,3 @@
-// -----------------------------------------------------------------------------
-// Generates a clean, readable, ATS-friendly PDF resume (1-2 pages) at public/cv.pdf.
-//
-// Run with:  npm run cv:generate
-//
-// Design goals: plain white background, dark text, standard fonts (Helvetica),
-// clear headings, no graphics/screenshots — readable by recruiters and ATS.
-//
-// To update the CV: edit the `data` object below, then re-run the command.
-// -----------------------------------------------------------------------------
-
 import PDFDocument from 'pdfkit';
 import { createWriteStream, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -17,11 +6,9 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(__dirname, '..', 'public', 'cv.pdf');
 
-// --- Content -----------------------------------------------------------------
 const data = {
   name: 'Mohamed Faizallah',
   title: 'Full-Stack Developer - React, TypeScript, Rust',
-  // Contact line 1 is plain text; line 2 holds clickable links.
   contactLine1: 'Tunis, Tunisie   |   100% remote   |   +216 23 09 10 15',
   email: 'mohamed.faizallah@gmail.com',
   linkedinLabel: 'linkedin.com/in/mohamed-faizallah',
@@ -108,13 +95,10 @@ const data = {
     'Comfortable with async communication, written updates, Git-based collaboration and timezone-flexible work.',
 };
 
-// --- Layout ------------------------------------------------------------------
-// Readability first: generous spacing, ~10.5pt body, ~13.5pt headings,
-// ~17mm margins, white background, dark text. Flows to a 2nd page if needed.
 const INK = '#1a1a1a';
 const MUTED = '#555555';
 const RULE = '#cfcfcf';
-const MARGIN = 50; // ~17.6mm
+const MARGIN = 50;
 
 const BODY = 10.5;
 const HEADING = 13.5;
@@ -137,12 +121,10 @@ doc.pipe(createWriteStream(OUT));
 const pageWidth = doc.page.width - MARGIN * 2;
 const pageBottom = doc.page.height - MARGIN;
 
-/** Add a fixed vertical gap in points. */
 const gap = (pts) => {
   doc.y += pts;
 };
 
-/** Start a new page if less than `min` points remain (keeps blocks together). */
 function ensureSpace(min) {
   if (doc.y + min > pageBottom) doc.addPage();
 }
@@ -178,13 +160,11 @@ function labeled(label, rest) {
   doc.font('Helvetica').text(rest, { lineGap: 2.5 });
 }
 
-// --- Header ------------------------------------------------------------------
 doc.font('Helvetica-Bold').fontSize(21).fillColor(INK).text(data.name);
 gap(2);
 doc.font('Helvetica').fontSize(12).fillColor(MUTED).text(data.title);
 gap(5);
 
-// Contact: line 1 plain, line 2 clickable links (email, LinkedIn, portfolio).
 const LINK = '#1d4ed8';
 const SEP = '   |   ';
 doc.font('Helvetica').fontSize(META);
@@ -206,18 +186,15 @@ doc.fillColor(LINK).text(data.portfolioLabel, {
   underline: true,
 });
 
-// --- Profile -----------------------------------------------------------------
 heading('Profile');
 data.profile.forEach((p) => para(p));
 
-// --- Technical Stack ---------------------------------------------------------
 heading('Technical Stack');
 data.stack.forEach(([label, rest]) => {
   labeled(label, rest);
   gap(4);
 });
 
-// --- Experience --------------------------------------------------------------
 heading('Experience');
 data.experience.forEach((job) => {
   doc.font('Helvetica-Bold').fontSize(ROLE).fillColor(INK).text(`${job.role}  |  ${job.org}`);
@@ -227,10 +204,8 @@ data.experience.forEach((job) => {
   bullets(job.bullets);
 });
 
-// --- Selected Projects -------------------------------------------------------
 heading('Selected Projects');
 data.projects.forEach((p, i) => {
-  // Keep each project block from splitting across the page boundary.
   ensureSpace(105);
   if (i > 0) gap(9);
   doc.font('Helvetica-Bold').fontSize(ROLE).fillColor(INK).text(p.name);
@@ -242,7 +217,6 @@ data.projects.forEach((p, i) => {
   labeled('Tech', p.tech);
 });
 
-// --- Education & Languages ---------------------------------------------------
 heading('Education & Languages');
 labeled('Education', data.education);
 gap(8);

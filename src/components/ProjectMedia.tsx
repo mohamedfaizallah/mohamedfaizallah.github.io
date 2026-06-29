@@ -4,7 +4,6 @@ import { ChevronLeft, ChevronRight, ImageOff, Play } from 'lucide-react';
 import { withBase } from '../lib/asset';
 import type { ProjectImage } from '../data/projects';
 
-/** A pretty browser-window mockup used when an image is missing. */
 function MockupPlaceholder({ label }: { label: string }) {
   return (
     <div className="flex h-full w-full flex-col bg-gradient-to-br from-bg-elevated to-bg-soft">
@@ -29,7 +28,6 @@ function MockupPlaceholder({ label }: { label: string }) {
   );
 }
 
-/** Image with a graceful mockup fallback when the file is missing. */
 export function MediaImage({
   src,
   alt,
@@ -61,7 +59,6 @@ export function MediaImage({
   );
 }
 
-/** Video inside a browser/device frame, with a fallback when missing. */
 export function MediaVideo({
   src,
   title,
@@ -75,7 +72,6 @@ export function MediaVideo({
 
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-bg-elevated shadow-card">
-      {/* device/browser top bar */}
       <div className="flex items-center gap-1.5 border-b border-border px-3 py-2">
         <span className="h-2.5 w-2.5 rounded-full bg-terminal-red/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-terminal-yellow/70" />
@@ -111,7 +107,6 @@ export function MediaVideo({
   );
 }
 
-/** Gallery of captioned screenshots used inside the case study modal. */
 export function ScreenshotCarousel({ images, title }: { images: ProjectImage[]; title: string }) {
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(0);
@@ -122,7 +117,6 @@ export function ScreenshotCarousel({ images, title }: { images: ProjectImage[]; 
     setIndex(((next % count) + count) % count);
   };
 
-  // Keyboard arrows navigate the gallery while the modal is open.
   useEffect(() => {
     if (count <= 1) return;
     const onKey = (e: KeyboardEvent) => {
@@ -144,7 +138,6 @@ export function ScreenshotCarousel({ images, title }: { images: ProjectImage[]; 
   return (
     <div>
       <div className="relative overflow-hidden rounded-xl border border-border bg-bg-elevated shadow-card">
-        {/* browser frame top bar */}
         <div className="flex items-center gap-1.5 border-b border-border px-3 py-2">
           <span className="h-2.5 w-2.5 rounded-full bg-terminal-red/70" />
           <span className="h-2.5 w-2.5 rounded-full bg-terminal-yellow/70" />
@@ -157,12 +150,6 @@ export function ScreenshotCarousel({ images, title }: { images: ProjectImage[]; 
           </span>
         </div>
 
-        {/*
-          Slides use a keyed motion.div (no AnimatePresence). A nested
-          AnimatePresence here would sit inside the case-study modal's
-          AnimatePresence and can stall the modal's exit. Re-mounting on index
-          change replays `initial -> animate` for the slide-in, no exit needed.
-        */}
         <div className="relative aspect-video w-full bg-[#0b0f16]">
           <motion.div
             key={index}
@@ -196,11 +183,9 @@ export function ScreenshotCarousel({ images, title }: { images: ProjectImage[]; 
           )}
         </div>
 
-        {/* caption */}
         <p className="border-t border-border px-3 py-2 text-center text-xs text-muted">{active.alt}</p>
       </div>
 
-      {/* thumbnail strip */}
       {count > 1 && (
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           {images.map((img, i) => (

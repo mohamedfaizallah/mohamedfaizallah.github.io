@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Single-page portfolio. Section anchors (#about, #projects, ...) are part of
-  this same page, so only the canonical homepage URL is listed (Google collapses
-  fragment URLs to the canonical page). Update the URL + lastmod if your domain
-  changes or after a significant content update.
--->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mohamedfaizallah.github.io/</loc>

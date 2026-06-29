@@ -1,13 +1,3 @@
-// -----------------------------------------------------------------------------
-// Generates SEO/social images from the source headshot (public/my photo.png):
-//   - public/profile.jpg       (clean filename, ~512px, used on the site)
-//   - public/profile.webp      (modern format)
-//   - public/profile-512.jpg   (explicit 512 square)
-//   - public/og-image.png      (1200x630 social share card)
-//
-// Run with:  npm run images:generate
-// -----------------------------------------------------------------------------
-
 import sharp from 'sharp';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -46,7 +36,7 @@ async function makeOgImage() {
   const W = 1200;
   const H = 630;
   const photoSize = 360;
-  const photoX = W - photoSize - 110; // right side
+  const photoX = W - photoSize - 110;
   const photoY = (H - photoSize) / 2;
 
   const name = escapeXml('Mohamed Faizallah');

@@ -61,7 +61,6 @@ export default function Workflow() {
           subtitle="I own the full pipeline — from a business need to a deployed, automated product."
         />
 
-        {/* Pipeline strip */}
         <motion.div
           {...reveal}
           variants={staggerContainer}
@@ -84,7 +83,6 @@ export default function Workflow() {
           ))}
         </motion.div>
 
-        {/* Detailed step cards */}
         <motion.div
           {...reveal}
           variants={staggerContainer}
@@ -92,7 +90,6 @@ export default function Workflow() {
         >
           {steps.map((step, i) => (
             <motion.article key={step.label} variants={fadeUp} className="group relative h-full">
-              {/* animated gradient border on hover */}
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute -inset-px rounded-xl bg-gradient-to-br from-accent/50 via-accent-violet/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
